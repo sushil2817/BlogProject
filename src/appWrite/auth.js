@@ -21,16 +21,44 @@ export class AuthService{
             if(userAccount){
                 // return userAccount
                 // call another method
+                return this.login({email,password})
+
             }else{
-                return 
+                return userAccount;
             }
 
         } catch (error) {
               throw error;
         }
     }
-}
 
+    async login(email,password){
+        try {
+             return  await this.account.createEmailPasswordSession(email,password)
+        } catch (error) {
+            console.log("Aprrwrite service:: getCurrentUser :: error",error);
+        }
+    }
+    
+    async getCurrentUser(){
+        try {
+            return await this.account.get();
+        } catch (error) {
+            // throw error;
+            console.log("Aprrwrite service:: getCurrentUser :: error",error);
+        }
+
+        return null;
+    }
+    async logout(){
+        try {
+            await this.account.deleteSessions();
+        } catch (error) {
+            console.log("Aprrwrite service:: getCurrentUser :: error",error);
+        }
+    }
+
+}
 const authService = new AuthService();
 
 export default authService;
