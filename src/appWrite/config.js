@@ -83,6 +83,44 @@ export class Service{
             console.log("Aprrwrite service:: getPosts :: error",error);
           }
     }
+    
+    // file upload method service
+
+    async uploadFile(file){
+        try {
+             return await this.bucket.createFile(
+                conf.appwriteBucketId,
+                ID.unique(),
+                file
+             )
+        } catch (error) {
+            console.log("Aprrwrite service:: uploadFile :: error",error);
+            return false;
+        }
+    }
+
+    async deleteFile(fileId){
+        try {
+            await this.bucket.deleteFile(
+                conf.appwriteBucketId,
+                fileId
+            )
+            return true;
+        } catch (error) {
+            console.log("Aprrwrite service:: deleteFile :: error",error);
+            return false;
+        }
+    }
+
+
+    getFilePreview(fileID){
+        return this.bucket.getFilePreview(
+            conf.appwriteBucketId,
+            fileID
+        )
+    }
+
+    
 }
 
 
